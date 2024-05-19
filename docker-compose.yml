@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  frontend:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./frontend/build:/usr/share/nginx/html
+
+  backend:
+    build: ./bar-patron-server/
+    environment:
+      DATABASE_URL: "mongodb://<username>:<password>@db:27017/<dbname>"
+
+  db:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - pg_data:/data/db
+    deploy:
+      restart_policy:
+        condition: any
+
+volumes:
+  pg_data:
