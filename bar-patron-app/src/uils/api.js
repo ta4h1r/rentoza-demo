@@ -26,10 +26,6 @@ export async function removePatron(patron) {
   return await client.delete("/patrons/" + id);
 }
 
-export async function addDrinkToPatronTally(id, drink) {
-  return await client.put("/patrons/" + id, drink);
-}
-
 export async function loadAllDrinks() {
   let drinks;
   if (localStorage.getItem("ALL_DRINKS")) {

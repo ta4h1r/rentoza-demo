@@ -45,3 +45,19 @@ exports.put = async (req, res) => {
     res.json(e);
   }
 };
+
+exports.retrieveSaturation = async (req, res) => {
+  try {
+    const id = req.params.id
+    const patron = await Table.findOne({
+      _id: id
+    }); 
+    // patron.drinks.reduce(async (acc, curr) => {
+    //   curr.drink.ABV
+    //   return acc
+    // }, 0)
+    res.json(patron)
+  } catch (e) {
+    res.status(400).json(e)
+  }
+}

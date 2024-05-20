@@ -8,7 +8,10 @@ const AddPatronForm = ({ show, setShow, allDrinks, setRevalidate }) => {
     drinks: [],
     bodyMass: null,
   });
-  const [drink, setDrink] = useState("");
+  const [drink, setDrink] = useState({
+    name: "", 
+    id: "", 
+  });
 
   const handleClose = () => {
     setFormState({ name: "", drinks: [] });
@@ -17,6 +20,8 @@ const AddPatronForm = ({ show, setShow, allDrinks, setRevalidate }) => {
   };
   const handleSubmit = () => {
     if (!formState.name) alert("Please insert a patron name");
+    if (!formState.bodyMass) alert("Please insert a patron body mass");
+    if (isNaN(formState.bodyMass)) alert("Please insert a number for patron body mass");
     else {
       // Upload to db
       addPatron(formState);

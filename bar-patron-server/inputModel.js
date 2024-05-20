@@ -9,7 +9,14 @@ var inputSchema = mongoose.Schema({
     required: true,
   },
   drinks: {
-    type: Array,
+    type: [{
+      drink: {
+        name: String, 
+        id: Number, 
+        mlsAlcohol: Number
+      }, 
+      timeTaken: Date
+    }],
     required: false,
   },
   bodyMass: {

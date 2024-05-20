@@ -38,7 +38,7 @@ export const GenericForm = ({
           </label>
           <div>
             <input
-              type="text"
+              type="number"
               placeholder="Enter patron body mass"
               value={formState.bodyMass}
               onChange={(e) =>
@@ -62,7 +62,7 @@ export const GenericForm = ({
                     margin: "5px",
                   }}
                 >
-                  <li>{it}</li>
+                  <li>{it.drink.name}</li>
                   <button
                     style={{
                       marginLeft: "5px",
@@ -85,12 +85,15 @@ export const GenericForm = ({
             <div>
               <select
                 onChange={(e) => {
-                  setDrink(e.target.value);
+                  setDrink(JSON.parse(e.target.value));
                 }}
               >
                 <option value=""></option>
                 {allDrinks.map((it) => (
-                  <option value={it?.strDrink}>{it?.strDrink}</option>
+                  <option value={JSON.stringify({
+                    name: it?.strDrink, 
+                    id: it?.idDrink
+                  })}>{it?.strDrink}</option>
                 ))}
               </select>
               <button
@@ -100,7 +103,7 @@ export const GenericForm = ({
                   else
                     setFormState({
                       ...formState,
-                      drinks: [...formState.drinks, drink],
+                      drinks: [...formState.drinks, {drink, timeTaken: Date.now()}],
                     });
                 }}
               >

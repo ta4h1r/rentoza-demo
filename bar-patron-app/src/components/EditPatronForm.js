@@ -11,7 +11,10 @@ const EditPatronForm = ({
   allDrinks,
 }) => {
   const [formState, setFormState] = useState({ name: "", drinks: [] });
-  const [drink, setDrink] = useState("");
+  const [drink, setDrink] = useState({
+    name: "", 
+    id: "", 
+  });
 
   useEffect(() => {
     if (patronToEdit)
@@ -30,6 +33,7 @@ const EditPatronForm = ({
   const handleSubmit = () => {
     if (!formState.name) alert("Please insert a patron name");
     if (!formState.bodyMass) alert("Please insert a patron body mass");
+    if (isNaN(formState.bodyMass)) alert("Please insert a number for patron body mass");
     else {
       editPatron(patronToEdit, formState);
       setRevalidate(true);

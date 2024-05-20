@@ -4,6 +4,7 @@ let apiRoutes = require("./api-routes"); // Response definitions
 let bodyParser = require("body-parser"); // For handling request data
 let mongoose = require("mongoose"); // For Mongo DB interactions
 var cors = require("cors"); // Enables cors policies on the resource for web interaction
+let customMiddleware = require("./middleware")
 
 // Definitions
 let app = express();
@@ -37,6 +38,8 @@ async function main() {
 
   // Set cors policy
   app.use(cors());
+
+  app.use(customMiddleware)
 
   // Send default message for root path
   app.get("/", (req, res) => res.send("Nothing to do here."));

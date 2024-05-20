@@ -16,5 +16,7 @@ router.route("/patrons").get(controller.index).post(controller.post);
 
 router.route("/patrons/:id").get(controller.retrieve).put(controller.put).delete(controller.delete);
 
+router.route("/patrons/:id/saturation").get(controller.retrieveSaturation);
+
 // Export API routes
 module.exports = router;
