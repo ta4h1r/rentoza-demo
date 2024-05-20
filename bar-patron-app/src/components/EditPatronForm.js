@@ -1,22 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Modal } from "react-bootstrap";
-import { addPatron } from "../uils/api";
+import { addPatron, editPatron, getPatron } from "../uils/api";
 
-const AddPatronForm = ({ show, setShow, allDrinks, setRevalidate }) => {
+const EditPatronForm = ({
+  show,
+  setShow,
+  patronToEdit,
+  setRevalidate,
+  allDrinks,
+}) => {
   const [formState, setFormState] = useState({ name: "", drinks: [] });
   const [drink, setDrink] = useState("");
 
+  useEffect(() => {
+    if (patronToEdit)
+      getPatron(patronToEdit).then((r) => {
+        setFormState({
+          name: r.data.name,
+          drinks: r.data.drinks,
+        });
+      });
+  }, [patronToEdit]);
+
   const handleClose = () => {
-    setFormState({ name: "", drinks: [] });
-    setDrink("");
     setShow(false);
   };
   const handleSubmit = () => {
     if (!formState.name) alert("Please insert a patron name");
     else {
-      // Upload to db
-      addPatron(formState);
-      setRevalidate(true); 
+      editPatron(patronToEdit, formState);
+      setRevalidate(true);
       handleClose();
     }
   };
@@ -25,7 +38,7 @@ const AddPatronForm = ({ show, setShow, allDrinks, setRevalidate }) => {
     <>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Add Patron</Modal.Title>
+          <Modal.Title>Edit Patron</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div>
@@ -45,6 +58,7 @@ const AddPatronForm = ({ show, setShow, allDrinks, setRevalidate }) => {
             <ul>
               {formState.drinks.map((it) => (
                 <div
+                  key={it}
                   style={{
                     display: "flex",
                     margin: "5px",
@@ -69,7 +83,7 @@ const AddPatronForm = ({ show, setShow, allDrinks, setRevalidate }) => {
                 </div>
               ))}
             </ul>
-            <label for="drinks">Add a drink: </label>
+            <label>Add a drink: </label>
             <select
               onChange={(e) => {
                 setDrink(e.target.value);
@@ -77,7 +91,7 @@ const AddPatronForm = ({ show, setShow, allDrinks, setRevalidate }) => {
             >
               <option value=""></option>
               {allDrinks.map((it) => (
-                <option value={it?.strDrink}>{it?.strDrink}</option>
+                <option key={it?.strDrink} value={it?.strDrink}>{it?.strDrink}</option>
               ))}
             </select>
             <button
@@ -109,4 +123,4 @@ const AddPatronForm = ({ show, setShow, allDrinks, setRevalidate }) => {
   );
 };
 
-export default AddPatronForm;
+export default EditPatronForm;

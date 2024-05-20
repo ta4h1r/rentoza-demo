@@ -6,14 +6,29 @@ const cocktailsClient = axios.create({
 });
 
 export async function loadPatrons() {
-  client.get("/");
+  return await client.get("/patrons");
 }
 
-export async function addPatron(id) {}
+export async function getPatron(id) {
+  return await client.get("/patrons/" + id);
+}
 
-export async function removePatron(id) {}
+export async function addPatron(data) {
+  return await client.post("/patrons", data);
+}
 
-export async function addDrinkToPatronTally(id, drink) {}
+export async function editPatron(id, data) {
+  return await client.put("/patrons/" + id, data);
+}
+
+export async function removePatron(patron) {
+  const id = patron._id;
+  return await client.delete("/patrons/" + id);
+}
+
+export async function addDrinkToPatronTally(id, drink) {
+  return await client.put("/patrons/" + id, drink);
+}
 
 export async function loadAllDrinks() {
   let drinks;

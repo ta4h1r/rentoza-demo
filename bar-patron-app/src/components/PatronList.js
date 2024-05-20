@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { removePatron } from "../uils/api";
 
-const PatronList = ({ patrons }) => {
+const PatronList = ({ patrons, setRevalidate, setPatronToEdit, setShowEditPatronForm }) => {
   const editPatron = (id) => {
-    console.log(id);
+    setPatronToEdit(id)
+    setShowEditPatronForm(true)
   };
   return (
     <>
@@ -12,9 +14,27 @@ const PatronList = ({ patrons }) => {
         <p> Click on a patron to edit </p>
         <ul>
           {patrons.map((patron) => (
-            <li onClick={() => editPatron(patron.id)} key={patron.id}>
-              {patron.name}
-            </li>
+            <div key={patron._id}
+              style={{
+                display: "flex",
+                margin: "5px",
+              }}
+            >
+              <li onClick={() => editPatron(patron._id)} key={patron.id}>
+                {patron.name}
+              </li>
+              <button
+                style={{
+                  marginLeft: "5px",
+                }}
+                onClick={() => {
+                  removePatron(patron)
+                  setRevalidate(true); 
+                }}
+              >
+                x
+              </button>
+            </div>
           ))}
         </ul>
       </div>

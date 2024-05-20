@@ -19,12 +19,12 @@ async function main() {
   };
 
   // Connect to Mongo DB and set connection variable
-  // mongoose.connect(uri, options);
+  mongoose.connect(uri, options);
 
   // Check for succesful DB connection
-  // var db = mongoose.connection;
-  // if (!db) console.log("Error connecting DB");
-  // else console.log("Connected to DB");
+  var db = mongoose.connection;
+  if (!db) console.log("Error connecting DB");
+  else console.log("Connected to DB");
 
   // Configure bodyparser to handle post requests
   app.use(

@@ -12,13 +12,9 @@ router.get("/", (req, res) => {
 });
 
 // Table routes
-router.route("/route1").get(controller.index1).post(controller.post1);
+router.route("/patrons").get(controller.index).post(controller.post);
 
-router
-  .route("/route2")
-  .get(controller.index2)
-  .post(controller.post2)
-  .delete(controller.delete2);
+router.route("/patrons/:id").get(controller.retrieve).put(controller.put).delete(controller.delete);
 
 // Export API routes
 module.exports = router;

@@ -8,9 +8,9 @@ var inputSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  consumption: {
+  drinks: {
     type: Array,
-    required: true,
+    required: false,
   },
 });
 
