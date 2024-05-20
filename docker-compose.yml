@@ -4,14 +4,18 @@ services:
   frontend:
     image: nginx:latest
     ports:
-      - "80:80"
+      - "8080:80"
     volumes:
-      - ./frontend/build:/usr/share/nginx/html
+      - ./bar-patron-app/build:/usr/share/nginx/html
+    environment:
+      SERVER_URL: "http://backend:8005/api"
 
   backend:
     build: ./bar-patron-server/
+    ports: 
+     - "8005:8005"
     environment:
-      DATABASE_URL: "mongodb://<username>:<password>@db:27017/<dbname>"
+      DATABASE_URL: "mongodb://db:27017/test"
 
   db:
     image: mongo:latest

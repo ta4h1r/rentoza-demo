@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const client = axios.create({ baseURL: "http://localhost:8005/api" });
+const client = axios.create({ baseURL: process.env.SERVER_URL || "http://localhost:8005/api" });
 const cocktailsClient = axios.create({
   baseURL: "https://thecocktaildb.com/api/json/v1/1/search.php",
 });

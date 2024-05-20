@@ -13,7 +13,7 @@ var port = process.env.PORT || 8005;
 main();
 
 async function main() {
-  const uri = "mongodb://localhost:27017/test";
+  const uri = process.env.DATABASE_URL || "mongodb://localhost:27017/test";
   const options = {
     useUnifiedTopology: true,
     useNewUrlParser: true,
