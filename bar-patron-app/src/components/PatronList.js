@@ -9,11 +9,6 @@ const PatronList = ({
   setRevalidate,
   setPatronToEdit,
   setShowEditPatronForm,
-  // showAddPatronForm,
-  // setShowAddPatronForm,
-  // allDrinks,
-  // showEditPatronForm,
-  // patronToEdit,
 }) => {
   const editPatron = (id) => {
     setPatronToEdit(id);
@@ -40,9 +35,9 @@ const PatronList = ({
                   patron.saturation > 1 ? { color: "red" } : { color: "black" }
                 }
                 onClick={() => editPatron(patron._id)}
-                key={patron.id}
+                key={patron._id}
               >
-                {patron.name}
+                {patron.name}, saturation: {Number(patron.saturation).toFixed(3)}
               </li>
               <button
                 style={{

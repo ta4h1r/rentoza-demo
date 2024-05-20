@@ -19,19 +19,22 @@ function App() {
 
   useEffect(() => {
     loadPatrons().then((r) => {
-      setPatrons(r.data);
-      setRevalidate(null);
+      const mPatrons = r.data; 
+      const promises = []
+      for(let i = 0; i < mPatrons.length; i++) {
+        promises.push(getPatronSaturation(mPatrons[i]._id))
+      }
+      Promise.all(promises).then(s => {
+        s = s.map(s => s.data)
+        for(let i = 0; i < mPatrons.length; i++) {
+          mPatrons[i]["saturation"] = s[i]
+        }
+        setPatrons(mPatrons);
+        setRevalidate(false);
+      })
     });
   }, [revalidate]);
 
-  // useEffect(() => {
-  //   for(let i = 0; i < patrons.length; i++) {
-  //     getPatronSaturation(patrons[i]._id).then(s => {
-  //       console.log(s.data)
-  //     })
-
-  //   }
-  // }, [patrons])
 
   const [allDrinks, setAllDrinks] = useState([]);
 
@@ -46,12 +49,6 @@ function App() {
         patrons={patrons}
         setShowEditPatronForm={setShowEditPatronForm}
         setPatronToEdit={setPatronToEdit}
-
-        // showAddPatronForm={showAddPatronForm}
-        // setShowAddPatronForm= {setShowAddPatronForm}
-        // allDrinks={allDrinks}
-        // showEditPatronForm={showEditPatronForm}
-        // patronToEdit={patronToEdit}
       />
       <Button
         disabled={allDrinks.length < 1}
