@@ -11,7 +11,7 @@ const PatronList = ({ patrons, setRevalidate, setPatronToEdit, setShowEditPatron
     <>
       <div>
         <h2>Patrons List</h2>
-        <p> Click on a patron to edit </p>
+        {patrons.length > 0 ? <p> Click on a patron to edit or view a patron's drinks tally </p> : null}
         <ul>
           {patrons.map((patron) => (
             <div key={patron._id}

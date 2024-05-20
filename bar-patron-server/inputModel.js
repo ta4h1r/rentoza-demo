@@ -12,6 +12,10 @@ var inputSchema = mongoose.Schema({
     type: Array,
     required: false,
   },
+  bodyMass: {
+    type: Number, 
+    required: true
+  }
 });
 
 // Export Input model
