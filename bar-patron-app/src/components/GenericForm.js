@@ -1,8 +1,8 @@
 import React from "react";
-import { Button, Modal } from "react-bootstrap";
+import { Spinner, Button, Modal } from "react-bootstrap";
 
 export const GenericForm = ({
-  title, 
+  title,
   show,
   handleClose,
   formState,
@@ -11,6 +11,7 @@ export const GenericForm = ({
   allDrinks,
   drink,
   handleSubmit,
+  isLoading
 }) => {
   return (
     <>
@@ -40,15 +41,15 @@ export const GenericForm = ({
             <input
               type="number"
               placeholder="Enter patron body mass"
-              value={formState.bodyMass}
+              value={formState.bodyMass ?? ""}
               onChange={(e) =>
                 setFormState({
                   ...formState,
                   bodyMass: e.target.value,
                 })
               }
-            />
-            <text> kg</text>
+            />{" "}
+            kg
           </div>
           <label style={{ marginTop: "5px", marginRight: "5px" }}>
             Drinks Tally:
@@ -85,25 +86,33 @@ export const GenericForm = ({
             <div>
               <select
                 onChange={(e) => {
-                  setDrink(JSON.parse(e.target.value));
+                  if (e.target.value) setDrink(JSON.parse(e.target.value));
+                  else setDrink("");
                 }}
               >
                 <option value=""></option>
                 {allDrinks.map((it) => (
-                  <option value={JSON.stringify({
-                    name: it?.strDrink, 
-                    id: it?.idDrink
-                  })}>{it?.strDrink}</option>
+                  <option
+                    value={JSON.stringify({
+                      name: it?.strDrink,
+                      id: it?.idDrink,
+                    })}
+                  >
+                    {it?.strDrink}
+                  </option>
                 ))}
               </select>
               <button
                 style={{ margin: "5px" }}
                 onClick={(e) => {
-                  if (!drink) alert("Please select a drink");
+                  if (!drink.id) alert("Please select a drink");
                   else
                     setFormState({
                       ...formState,
-                      drinks: [...formState.drinks, {drink, timeTaken: Date.now()}],
+                      drinks: [
+                        ...formState.drinks,
+                        { drink, timeTaken: Date.now() },
+                      ],
                     });
                 }}
               >
@@ -118,7 +127,13 @@ export const GenericForm = ({
             Cancel
           </Button>
           <Button variant="primary" onClick={handleSubmit}>
-            Save Changes
+            {isLoading ? <Spinner
+              as="span"
+              animation="border"
+              size="sm"
+              role="status"
+              aria-hidden="true"
+            /> : "Save Changes"}
           </Button>
         </Modal.Footer>
       </Modal>

@@ -1,32 +1,43 @@
 import React, { useState } from "react";
-import { addPatron } from "../uils/api";
+import { addPatron } from "../utils/api";
 import { GenericForm } from "./GenericForm";
 
-const AddPatronForm = ({ show, setShow, allDrinks, setRevalidate }) => {
+const AddPatronForm = ({
+  show,
+  setShow,
+  allDrinks,
+  setRevalidate,
+  setIsLoading,
+  isLoading
+}) => {
   const [formState, setFormState] = useState({
     name: "",
     drinks: [],
     bodyMass: null,
   });
   const [drink, setDrink] = useState({
-    name: "", 
-    id: "", 
+    name: "",
+    id: "",
   });
 
   const handleClose = () => {
     setFormState({ name: "", drinks: [] });
     setDrink("");
     setShow(false);
+    setIsLoading(false);
   };
   const handleSubmit = () => {
     if (!formState.name) alert("Please insert a patron name");
     if (!formState.bodyMass) alert("Please insert a patron body mass");
-    if (isNaN(formState.bodyMass)) alert("Please insert a number for patron body mass");
+    if (isNaN(formState.bodyMass))
+      alert("Please insert a number for patron body mass");
     else {
       // Upload to db
-      addPatron(formState);
-      setRevalidate(true);
-      handleClose();
+      setIsLoading(true);
+      addPatron(formState).then((_) => {
+        setRevalidate(true);
+        handleClose();
+      });
     }
   };
 
@@ -41,6 +52,7 @@ const AddPatronForm = ({ show, setShow, allDrinks, setRevalidate }) => {
       allDrinks={allDrinks}
       drink={drink}
       handleSubmit={handleSubmit}
+      isLoading={isLoading}
     />
   );
 };

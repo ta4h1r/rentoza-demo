@@ -55,8 +55,8 @@ exports.retrieveSaturation = async (req, res) => {
     const saturation = patron.drinks.reduce((acc, curr) => {
       const elapsedTime =
         (Date.now() - new Date(curr.timeTaken).getTime()) / 1000;
-      const lambda = 1 / (curr.drink.mlsAlcohol * patron.bodyMass);
-      const sat = acc + Math.pow(Math.E, -lambda * elapsedTime);
+      const lambda = (patron.bodyMass/(curr.drink.mlsAlcohol*1000));
+      const sat = acc + Math.pow(Math.E, -(lambda * elapsedTime));
       return sat;
     }, 0);
     res.json(saturation);

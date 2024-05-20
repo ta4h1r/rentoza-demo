@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button, Modal } from "react-bootstrap";
-import { addPatron, editPatron, getPatron } from "../uils/api";
+import { addPatron, editPatron, getPatron } from "../utils/api";
 import { GenericForm } from "./GenericForm";
 
 const EditPatronForm = ({
@@ -9,6 +9,8 @@ const EditPatronForm = ({
   patronToEdit,
   setRevalidate,
   allDrinks,
+  setIsLoading,
+  isLoading
 }) => {
   const [formState, setFormState] = useState({ name: "", drinks: [] });
   const [drink, setDrink] = useState({
@@ -28,6 +30,7 @@ const EditPatronForm = ({
   }, [patronToEdit]);
 
   const handleClose = () => {
+    setIsLoading(false); 
     setShow(false);
   };
   const handleSubmit = () => {
@@ -35,9 +38,11 @@ const EditPatronForm = ({
     if (!formState.bodyMass) alert("Please insert a patron body mass");
     if (isNaN(formState.bodyMass)) alert("Please insert a number for patron body mass");
     else {
-      editPatron(patronToEdit, formState);
-      setRevalidate(true);
-      handleClose();
+      setIsLoading(true); 
+      editPatron(patronToEdit, formState).then(_ => {
+        setRevalidate(true);
+        handleClose();
+      });
     }
   };
 
@@ -52,6 +57,7 @@ const EditPatronForm = ({
       allDrinks={allDrinks}
       drink={drink}
       handleSubmit={handleSubmit}
+      isLoading={isLoading}
     />
   );
 };

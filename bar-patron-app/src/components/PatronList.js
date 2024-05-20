@@ -1,26 +1,47 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { removePatron } from "../uils/api";
+import { removePatron } from "../utils/api";
+import AddPatronForm from "./AddPatronForm";
+import EditPatronForm from "./EditPatronForm";
 
-const PatronList = ({ patrons, setRevalidate, setPatronToEdit, setShowEditPatronForm }) => {
+const PatronList = ({
+  patrons,
+  setRevalidate,
+  setPatronToEdit,
+  setShowEditPatronForm,
+  // showAddPatronForm,
+  // setShowAddPatronForm,
+  // allDrinks,
+  // showEditPatronForm,
+  // patronToEdit,
+}) => {
   const editPatron = (id) => {
-    setPatronToEdit(id)
-    setShowEditPatronForm(true)
+    setPatronToEdit(id);
+    setShowEditPatronForm(true);
   };
   return (
     <>
       <div>
         <h2>Patrons List</h2>
-        {patrons.length > 0 ? <p> Click on a patron to edit or view a patron's drinks tally </p> : null}
+        {patrons.length > 0 ? (
+          <p> Click on a patron to edit or view their drinks tally </p>
+        ) : null}
         <ul>
           {patrons.map((patron) => (
-            <div key={patron._id}
+            <div
+              key={patron._id}
               style={{
                 display: "flex",
                 margin: "5px",
               }}
             >
-              <li onClick={() => editPatron(patron._id)} key={patron.id}>
+              <li
+                style={
+                  patron.saturation > 1 ? { color: "red" } : { color: "black" }
+                }
+                onClick={() => editPatron(patron._id)}
+                key={patron.id}
+              >
                 {patron.name}
               </li>
               <button
@@ -28,8 +49,8 @@ const PatronList = ({ patrons, setRevalidate, setPatronToEdit, setShowEditPatron
                   marginLeft: "5px",
                 }}
                 onClick={() => {
-                  removePatron(patron)
-                  setRevalidate(true); 
+                  removePatron(patron);
+                  setRevalidate(true);
                 }}
               >
                 x
