@@ -1,7 +1,7 @@
 ## Running the stack
 1. Clone this repo
 2. `cd` into the root folder (containing the `docker-compose.yml`) and run `
-docker-compose up -d --build`
+docker-compose up -d --build` (If you have not got docker/compose installed, visit https://docs.docker.com/compose/install/ for help)
 1. If you correctly built all three containers, you will see a web-UI when you navigate to `localhost:8080`
 
 ## Interacting with the app 
