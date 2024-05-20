@@ -47,7 +47,9 @@ export async function loadAllDrinks() {
 }
 
 export async function getPatronSaturation(id) {
-  if(id) return await client.get("/patrons/" + id + "/saturation");
+  if(id) return await client.get("/patrons/" + id + "/saturation").catch(e => {
+    console.error(e)
+  });
 }
 
 async function delay(delayMillis) {

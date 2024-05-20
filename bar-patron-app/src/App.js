@@ -31,6 +31,9 @@ function App() {
         }
         setPatrons(mPatrons);
         setRevalidate(false);
+      }).catch(e => {
+        setPatrons(mPatrons);
+        setRevalidate(false);
       })
     });
   }, [revalidate]);

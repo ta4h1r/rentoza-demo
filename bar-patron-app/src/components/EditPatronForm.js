@@ -10,36 +10,37 @@ const EditPatronForm = ({
   setRevalidate,
   allDrinks,
   setIsLoading,
-  isLoading
+  isLoading,
 }) => {
   const [formState, setFormState] = useState({ name: "", drinks: [] });
   const [drink, setDrink] = useState({
-    name: "", 
-    id: "", 
+    name: "",
+    id: "",
   });
 
   useEffect(() => {
     if (patronToEdit)
       getPatron(patronToEdit).then((r) => {
         setFormState({
-          name: r.data.name,
-          drinks: r.data.drinks,
-          bodyMass: r.data.bodyMass,
+          name: r.data ? r.data.name : "",
+          drinks: r.data ? r.data.drinks : [],
+          bodyMass: r.data ? r.data.bodyMass : 0,
         });
       });
   }, [patronToEdit]);
 
   const handleClose = () => {
-    setIsLoading(false); 
+    setIsLoading(false);
     setShow(false);
   };
   const handleSubmit = () => {
     if (!formState.name) alert("Please insert a patron name");
     if (!formState.bodyMass) alert("Please insert a patron body mass");
-    if (isNaN(formState.bodyMass)) alert("Please insert a number for patron body mass");
+    if (isNaN(formState.bodyMass))
+      alert("Please insert a number for patron body mass");
     else {
-      setIsLoading(true); 
-      editPatron(patronToEdit, formState).then(_ => {
+      setIsLoading(true);
+      editPatron(patronToEdit, formState).then((_) => {
         setRevalidate(true);
         handleClose();
       });
