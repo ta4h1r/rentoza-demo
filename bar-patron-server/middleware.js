@@ -12,39 +12,13 @@ module.exports = middleware = async function (req, res, next) {
         drinks[i].drink["mlsAlcohol"] = await getMlsAlcohol(drinkId);
       }
 
-      console.log(JSON.stringify(drinks, null, 2))
+      req.body.drinks = drinks
 
       break;
     default:
       break;
   }
   next();
-};
-
-const convertToMl = (amount) => {
-  const MLS_PER_SHOT = 30;
-  const MLS_PER_OZ = 30;
-  const MLS_PER_PART = 30;
-
-  const split = amount.split(" ").map((it) => it.toLowerCase());
-  const unitOz = split.indexOf("oz");
-  const unitPart = split.indexOf("part");
-  const unitShot = split.indexOf("shot");
-  let amt;
-  if (unitShot > -1) {
-    amt = split.slice(0, unitShot).reduce((acc, curr) => {
-      return acc + eval(curr) * MLS_PER_SHOT;
-    }, 0);
-  } else if (unitOz > -1) {
-    amt = split.slice(0, unitOz).reduce((acc, curr) => {
-      return acc + eval(curr) * MLS_PER_OZ;
-    }, 0);
-  } else if (unitPart > -1) {
-    amt = split.splice(0, unitPart).reduce((acc, curr) => {
-      return acc + eval(curr) * MLS_PER_PART;
-    }, 0);
-  }
-  return amt;
 };
 
 async function getMlsAlcohol(drinkId) {

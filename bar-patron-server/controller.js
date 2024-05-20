@@ -7,7 +7,7 @@ exports.index = async (req, res) => {
 };
 
 exports.retrieve = async (req, res) => {
-  data = await Table.findOne({_id: req.params.id});
+  data = await Table.findOne({ _id: req.params.id });
   res.status(200).json(data);
 };
 
@@ -36,7 +36,7 @@ exports.put = async (req, res) => {
     const update = req.body;
     const u = await Table.findOneAndUpdate(
       {
-          _id: id,
+        _id: id,
       },
       update
     );
@@ -48,16 +48,19 @@ exports.put = async (req, res) => {
 
 exports.retrieveSaturation = async (req, res) => {
   try {
-    const id = req.params.id
+    const id = req.params.id;
     const patron = await Table.findOne({
-      _id: id
-    }); 
-    // patron.drinks.reduce(async (acc, curr) => {
-    //   curr.drink.ABV
-    //   return acc
-    // }, 0)
-    res.json(patron)
+      _id: id,
+    });
+    const saturation = patron.drinks.reduce((acc, curr) => {
+      const elapsedTime =
+        (Date.now() - new Date(curr.timeTaken).getTime()) / 1000;
+      const lambda = 1 / (curr.drink.mlsAlcohol * patron.bodyMass);
+      const sat = acc + Math.pow(Math.E, -lambda * elapsedTime);
+      return sat;
+    }, 0);
+    res.json(saturation);
   } catch (e) {
-    res.status(400).json(e)
+    res.status(400).json(e);
   }
-}
+};
